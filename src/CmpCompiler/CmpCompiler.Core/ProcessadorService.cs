@@ -55,9 +55,9 @@ namespace CmpCompiler.Core
         {
             string _lineAux = string.Empty;
             //Remover comentários
-            if (line.Contains("\\\\", StringComparison.CurrentCulture))
+            if (line.Contains("//", StringComparison.CurrentCulture))
             {
-                var lineSplit = line.Split("\\\\");
+                var lineSplit = line.Split("//");
                 _lineAux = lineSplit[0];
             }
             else _lineAux = line;
