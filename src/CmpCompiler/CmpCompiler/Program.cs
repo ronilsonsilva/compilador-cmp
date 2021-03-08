@@ -14,6 +14,7 @@ namespace CmpCompiler
             new ProcessadorService().FromFile(path);
 
             Console.WriteLine("Processamento finalizado!!!!!");
+            Console.ReadLine();
         }
     }
 }

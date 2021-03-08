@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CmpCompiler.Core
 {
@@ -21,20 +22,36 @@ namespace CmpCompiler.Core
             try
             {
                 var lines = File.ReadAllLines(path);
-                List<string> sb = new List<string>();
-                foreach (var line in lines)
+                //Com expressão regular
+                string allLines = string.Join("\n", lines);
+                string lineSemComentarios = string.Empty;
+                if (allLines.Contains("//", StringComparison.CurrentCulture))
                 {
-                    string _lineAux = RemoveComentarios(line);
-
-                    //Remover espaços em brancos
-                    string newLine = RemoverEspacos(_lineAux);
-                    if (!string.IsNullOrEmpty(newLine))
-                        sb.Add(newLine);
+                    var lineSplit = allLines.Split("//");
+                    for (int i = 0; i < lineSplit.Length; i++)
+                    {
+                        if (this.NumeroPar(i))
+                        {
+                            lineSemComentarios += lineSplit[i];
+                        }
+                    }
                 }
+                var splitLineSemComentarios = lineSemComentarios.Split("\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
+                List<string> newLines = new List<string>();
+                foreach (var line in splitLineSemComentarios)
+                {
+                    var newLine = Regex.Replace(line, @"\s+", " ");
+                    if (newLine.StartsWith(" "))
+                        newLine = newLine.Substring(1, newLine.Length - 1);
+                    if (newLine.EndsWith(" "))
+                        newLine = newLine.Substring(0, newLine.Length - 2);
+                    newLines.Add(newLine);
+                }
+
                 string pathNovoArquivo = Path.ChangeExtension(path, ".proc");
                 if (File.Exists(pathNovoArquivo))
                     File.Delete(pathNovoArquivo);
-                File.WriteAllLines(pathNovoArquivo, sb);
+                File.WriteAllLines(pathNovoArquivo, newLines);
             }
             catch (Exception ex)
             {
@@ -62,6 +79,12 @@ namespace CmpCompiler.Core
             }
             else _lineAux = line;
             return _lineAux;
+        }
+
+        private bool NumeroPar(int number)
+        {
+            if (number == 0) return true;
+            return (number % 2) == 0;
         }
 
         #endregion
