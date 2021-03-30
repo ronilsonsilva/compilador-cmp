@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CmpCompiler.Core
@@ -17,7 +16,7 @@ namespace CmpCompiler.Core
 
         #region [Methods]
 
-        public void FromFile(string path)
+        public List<string> FromFile(string path)
         {
             try
             {
@@ -48,10 +47,7 @@ namespace CmpCompiler.Core
                     newLines.Add(newLine);
                 }
 
-                string pathNovoArquivo = Path.ChangeExtension(path, ".proc");
-                if (File.Exists(pathNovoArquivo))
-                    File.Delete(pathNovoArquivo);
-                File.WriteAllLines(pathNovoArquivo, newLines);
+                return newLines;
             }
             catch (Exception ex)
             {

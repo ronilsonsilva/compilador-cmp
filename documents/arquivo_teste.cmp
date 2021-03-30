@@ -1,10 +1,21 @@
-Loren ipsun dolor sit amet 
-Lorem ipsum dolor sit amet consectetur adipiscing elit
-Phasellus in rhoncus orci at vulputate lectus 			
-	Lorem ipsum dolor sit amet, //consectetur adipiscing// elit.	 
-Vestibulum   rhoncus lacus eget eros luctus imperdiet     	
-//Vestibulum rhoncus lacus eget eros luctus imperdiet1
-Proin vitae    laoreet augue, nec cursus mi //asdfasd
- Donec a justo quis tortor iaculis bibendum//
-Lorem ipsum dolor sit amet, //consectetur adipiscing// elit.	 
-	  
+inicio
+	var x;
+	var numA;
+	escreva ( "Entre um número" );
+	leia numA;
+	x = 10;
+	se ( numA < x )
+	inicio
+		escreva ( "Unidade é" );
+		escreva ( numA );
+	fim
+	senao 
+	inicio
+		se ( numA < 100 )
+		inicio
+			x = numA / 10;
+			escreva ( "Unidade é:" );
+			escreva ( numA );
+		fim
+	fim
+fim 

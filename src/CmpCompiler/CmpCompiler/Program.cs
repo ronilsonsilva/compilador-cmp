@@ -1,5 +1,4 @@
-﻿using CmpCompiler.Core;
-using System;
+﻿using System;
 
 namespace CmpCompiler
 {
@@ -11,7 +10,7 @@ namespace CmpCompiler
 
             var path = Console.ReadLine();
 
-            new ProcessadorService().FromFile(path);
+            new CmpCompiler.Core.Compilador().Run(path);
 
             Console.WriteLine("Processamento finalizado!!!!!");
             Console.ReadLine();
