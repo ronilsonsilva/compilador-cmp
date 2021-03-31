@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace CmpCompiler.Core.Models
 {
     public class ArvoreAlgoritmo
     {
+        public ArvoreAlgoritmo()
+        {
+            this.Erros = new List<string>();
+        }
         public List<LinhasTokens> Linhas { get; private set; }
+        public List<string> Erros { get; private set; }
         public List<long> Identificadores
         {
             get
@@ -17,7 +21,7 @@ namespace CmpCompiler.Core.Models
                 {
                     foreach (var token in linha.Tokens)
                     {
-                        if (token.Tipo == TipoToken.VARIAVEL)
+                        if (token.Tipo == TipoToken.ID)
                             ids.Add(token.Identificador);
                     }
                 }
@@ -33,20 +37,74 @@ namespace CmpCompiler.Core.Models
             if (string.IsNullOrWhiteSpace(valorLinha))
                 return;
 
-            var linha = new LinhasTokens(this.Linhas.Count+1);
-            var linhaSplit = valorLinha.Split(" ");
-            foreach (var item in linhaSplit)
+            var linha = new LinhasTokens(this.Linhas.Count + 1);
+            if (valorLinha.Contains("\""))
             {
-                this.AdicionarToken(linha, item);
+                var splitFrase = valorLinha.Split("\"");
+                for (int i = 0; i < splitFrase.Length; i++)
+                {
+                    if(i != 0 && (i %2) != 0)//frase
+                    {
+                        linha.Tokens.Add(new Token(splitFrase[i], TipoToken.FR));
+                    }
+                    else
+                    {
+                        var linhaSplit = splitFrase[i].Split(" ");
+                        foreach (var item in linhaSplit)
+                        {
+                            this.AdicionarToken(linha, item);
+                        }
+                    }
+                }
             }
+            else
+            {
+                var linhaSplit = valorLinha.Split(" ");
+                foreach (var item in linhaSplit)
+                {
+                    this.AdicionarToken(linha, item);
+                }
+            }
+            
+
+            if (linha.Tokens.Count > 0)
+                this.Linhas.Add(linha);
         }
 
         private void AdicionarToken(LinhasTokens linha, string valor)
         {
             if (valor.EhPalavraReservada())
                 linha.Tokens.Add(new Token(valor, TipoToken.PALAVRA_RESERVADA));
+            else if (valor.EhCondicionalLogica())
+                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.CL));
+            else if (valor.EhOperadorMatematico())
+                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.OM));
+            else if (valor.EhOperadorLogico())
+                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.OL));
+            else if (valor.EhCaracteres())
+                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.FR));
+            else if (int.TryParse(valor, out _))
+                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.NU));
             else
             {
+                if (string.IsNullOrWhiteSpace(valor)) return;
+                var primeiroCaracter = valor.First();
+                bool isNumber = decimal.TryParse(primeiroCaracter.ToString(), out _);
+                if (isNumber)
+                {
+                    this.Erros.Add($"Lexema inválido {valor}, linha {linha.Linha}.");
+                    return;
+                }
+                if (primeiroCaracter.ToString().EhPalavraReservada()
+                    || primeiroCaracter.ToString().EhCaracteres()
+                    || primeiroCaracter.ToString().EhOperadorLogico()
+                    || primeiroCaracter.ToString().EhOperadorMatematico()
+                    || primeiroCaracter.ToString().EhCondicionalLogica())
+                {
+                    this.Erros.Add($"Lexema inválido {valor}, linha {linha.Linha}.");
+                    return;
+                }
+
                 foreach (var item in this.Linhas)
                 {
                     var existente = item.Tokens.Where(x => x.Valor.Equals(valor)).FirstOrDefault();
@@ -56,8 +114,7 @@ namespace CmpCompiler.Core.Models
                         return;
                     }
                 }
-
-                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.VARIAVEL));
+                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.ID));
             }
         }
 

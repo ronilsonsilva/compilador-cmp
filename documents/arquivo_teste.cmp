@@ -1,21 +1,21 @@
 inicio
-	var x;
-	var numA;
-	escreva ( "Entre um número" );
-	leia numA;
-	x = 10;
+	var x ;
+	var numA ;
+	escreva ( "Entre um número" ) ;
+	leia numA ;
+	x = 10 ;
 	se ( numA < x )
 	inicio
-		escreva ( "Unidade é" );
-		escreva ( numA );
+		escreva ( "Unidade é" ) ;
+		escreva ( numA ) ;
 	fim
 	senao 
 	inicio
 		se ( numA < 100 )
 		inicio
-			x = numA / 10;
-			escreva ( "Unidade é:" );
-			escreva ( numA );
+			x = numA / 10 ;
+			escreva ( "Unidade é:" ) ;
+			escreva ( numA ) ;
 		fim
 	fim
 fim 

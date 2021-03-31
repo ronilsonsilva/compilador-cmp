@@ -7,6 +7,7 @@ namespace CmpCompiler.Core.Models
         public LinhasTokens(long linha)
         {
             Linha = linha;
+            this.Tokens = new List<Token>();
         }
 
         public long Linha { get; set; }

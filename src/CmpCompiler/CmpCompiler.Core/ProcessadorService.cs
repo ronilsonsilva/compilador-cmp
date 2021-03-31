@@ -35,6 +35,8 @@ namespace CmpCompiler.Core
                         }
                     }
                 }
+                else lineSemComentarios = allLines;
+
                 var splitLineSemComentarios = lineSemComentarios.Split("\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
                 List<string> newLines = new List<string>();
                 foreach (var line in splitLineSemComentarios)
@@ -43,7 +45,7 @@ namespace CmpCompiler.Core
                     if (newLine.StartsWith(" "))
                         newLine = newLine.Substring(1, newLine.Length - 1);
                     if (newLine.EndsWith(" "))
-                        newLine = newLine.Substring(0, newLine.Length - 2);
+                        newLine = newLine.Substring(0, newLine.Length - 1);
                     newLines.Add(newLine);
                 }
 

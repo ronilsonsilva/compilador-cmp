@@ -23,7 +23,19 @@
         {
             if (this.Tipo == TipoToken.PALAVRA_RESERVADA)
                 return $"[{this.Valor},]";
-            return $"[id,{this.Identificador}]";
+            else if(this.Tipo == TipoToken.CL)
+                return $"[CL,{this.Valor}]";
+            else if (this.Tipo == TipoToken.FR)
+                return $"[FR,{this.Valor}]";
+            else if (this.Tipo == TipoToken.ID)
+                return $"[ID,{this.Valor}]";
+            else if (this.Tipo == TipoToken.NU)
+                return $"[NU,{this.Valor}]";
+            else if (this.Tipo == TipoToken.OL)
+                return $"[OL,{this.Valor}]";
+            else if (this.Tipo == TipoToken.OM)
+                return $"[OM,{this.Valor}]";
+            else return $"[ID,{this.Identificador}]";
         }
     }
 }
