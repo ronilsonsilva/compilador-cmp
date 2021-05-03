@@ -1,0 +1,11 @@
+### Aula 30-04-2021
+###Enviar certificados: ecec@pucgoias.edu.br
+-REmover " " de palavra reservada
+-Definir regra para : -> deve ser um erro
+-Especificar na linguagem que deve aceitar somente números inteiros.
+
+
+### Próxima etapa: Imprimir posição dos identificadores
+
+### Escrever a gramática
+
