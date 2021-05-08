@@ -73,7 +73,12 @@ namespace CmpCompiler.Core.Models
 
         private void AdicionarToken(LinhasTokens linha, string valor)
         {
-            if (valor.EhPalavraReservada())
+            if (valor.PossuiCaracteresInvalido())
+            {
+                this.Erros.Add($"Lexema inválido {valor}, linha {linha.Linha}.");
+                return;
+            }
+            else if (valor.EhPalavraReservada())
                 linha.Tokens.Add(new Token(valor, TipoToken.PALAVRA_RESERVADA));
             else if (valor.EhCondicionalLogica())
                 linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.CL));

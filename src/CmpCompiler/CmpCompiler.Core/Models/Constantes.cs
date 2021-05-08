@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace CmpCompiler.Core.Models
 {
@@ -93,7 +94,6 @@ namespace CmpCompiler.Core.Models
                 var lista = new List<string>();
                 lista.Add("(");
                 lista.Add(")");
-                lista.Add(",");
                 lista.Add("\"");
                 return lista;
             }
@@ -102,6 +102,27 @@ namespace CmpCompiler.Core.Models
         public static bool EhCaracteres(this string valor)
         {
             return Constantes.Caracteres.Contains(valor) || (valor.StartsWith("\"") && valor.EndsWith("\""));
+        }
+
+        public static List<string> CaracteresIgnorado
+        {
+            get
+            {
+                var lista = new List<string>();
+                lista.Add(",");
+                lista.Add(":");
+                lista.Add("º");
+                lista.Add("ª");
+                lista.Add("§");
+                lista.Add(".");
+                lista.Add("*");
+                return lista;
+            }
+        }
+
+        public static bool PossuiCaracteresInvalido(this string valor)
+        {
+            return valor.Any(x => Constantes.CaracteresIgnorado.Contains(x.ToString()));
         }
     }
 }

@@ -1,7 +1,10 @@
 ### Aula 30-04-2021
 ###Enviar certificados: ecec@pucgoias.edu.br
 -REmover " " de palavra reservada
--Definir regra para : -> deve ser um erro
+
+(OK)-Definir regra para : -> deve ser um erro
+	-Adicionado dicionário de caracteres inválidos
+
 -Especificar na linguagem que deve aceitar somente números inteiros.
 
 
