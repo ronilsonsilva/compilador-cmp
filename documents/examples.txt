@@ -1,0 +1,26 @@
+
+## Exemplo1
+
+inicioPrograma
+	var nome = "Roberto das Coves" ;
+	var idade = 120 ;
+	var idadeMaxima = 90;
+	se ( idade <= idadeMaxima )
+		escreva ( "Zumbi!!!" ) ;
+	senao
+		escreva ( "Parece gente!!" ) ;
+fimPrograma
+
+
+### Example 2
+inicioPrograma
+	var idadeMaxima 90 ;
+	escreva ( "Digite seu nome: " ) ;
+	var nome = leia ;
+	escreva ( "Digite sua idade: " ) ;
+	var idade = leia ;
+	se ( idade <= idadeMaxima )
+		escreva ( "Zumbi!!!" ) ;
+	senao
+		escreva ( "Parece gente!!" ) ;
+fimPrograma
