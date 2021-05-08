@@ -5,7 +5,7 @@
 (OK)-Definir regra para : -> deve ser um erro
 	-Adicionado dicionário de caracteres inválidos
 
--Especificar na linguagem que deve aceitar somente números inteiros.
+(OK)-Especificar na linguagem que deve aceitar somente números inteiros.
 
 
 ### Próxima etapa: Imprimir posição dos identificadores

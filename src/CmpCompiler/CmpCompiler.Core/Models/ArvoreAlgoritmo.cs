@@ -11,23 +11,24 @@ namespace CmpCompiler.Core.Models
         }
         public List<LinhasTokens> Linhas { get; private set; }
         public List<string> Erros { get; private set; }
-        public List<long> Identificadores
-        {
-            get
-            {
-                var ids = new List<long>();
-                ids.Add(0);
-                foreach (var linha in this.Linhas)
-                {
-                    foreach (var token in linha.Tokens)
-                    {
-                        if (token.Tipo == TipoToken.ID)
-                            ids.Add(token.Identificador);
-                    }
-                }
-                return ids;
-            }
-        }
+        public List<long> Identificadores { get; set; } = new List<long>();
+        //public List<long> Identificadores
+        //{
+        //    get
+        //    {
+        //        var ids = new List<long>();
+        //        //ids.Add(0);
+        //        foreach (var linha in this.Linhas)
+        //        {
+        //            foreach (var token in linha.Tokens)
+        //            {
+        //                if (token.Tipo == TipoToken.ID)
+        //                    ids.Add(token.Identificador);
+        //            }
+        //        }
+        //        return ids;
+        //    }
+        //}
 
         public void ProcessarLinha(string valorLinha)
         {
@@ -73,12 +74,7 @@ namespace CmpCompiler.Core.Models
 
         private void AdicionarToken(LinhasTokens linha, string valor)
         {
-            if (valor.PossuiCaracteresInvalido())
-            {
-                this.Erros.Add($"Lexema inválido {valor}, linha {linha.Linha}.");
-                return;
-            }
-            else if (valor.EhPalavraReservada())
+            if (valor.EhPalavraReservada())
                 linha.Tokens.Add(new Token(valor, TipoToken.PALAVRA_RESERVADA));
             else if (valor.EhCondicionalLogica())
                 linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.CL));
@@ -86,13 +82,22 @@ namespace CmpCompiler.Core.Models
                 linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.OM));
             else if (valor.EhOperadorLogico())
                 linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.OL));
-            else if (valor.EhCaracteres())
-                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.FR));
+            //else if (valor.EhCaracteres())
+            //    linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.FR));
             else if (int.TryParse(valor, out _))
                 linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.NU));
             else
             {
                 if (string.IsNullOrWhiteSpace(valor)) return;
+
+                if (!valor.PossuiCaracteresInvalido())
+                {
+                    this.Erros.Add($"Lexema inválido {valor}, linha {linha.Linha}.");
+                    return;
+                }
+                
+                //Rever
+
                 var primeiroCaracter = valor.First();
                 bool isNumber = decimal.TryParse(primeiroCaracter.ToString(), out _);
                 if (isNumber)
@@ -119,7 +124,9 @@ namespace CmpCompiler.Core.Models
                         return;
                     }
                 }
-                linha.Tokens.Add(new Token(this.Identificadores.Max() + 1, valor, TipoToken.ID));
+                var identificadorToken = this.Identificadores.Count + 1;
+                linha.Tokens.Add(new Token(identificadorToken, valor, TipoToken.ID));
+                this.Identificadores.Add(identificadorToken);
             }
         }
 

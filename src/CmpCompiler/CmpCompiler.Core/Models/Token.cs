@@ -28,7 +28,7 @@
             else if (this.Tipo == TipoToken.FR)
                 return $"[FR,{this.Valor}]";
             else if (this.Tipo == TipoToken.ID)
-                return $"[ID,{this.Valor}]";
+                return $"[ID,{this.Identificador}]";
             else if (this.Tipo == TipoToken.NU)
                 return $"[NU,{this.Valor}]";
             else if (this.Tipo == TipoToken.OL)

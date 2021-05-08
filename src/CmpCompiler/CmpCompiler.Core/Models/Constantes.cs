@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CmpCompiler.Core.Models
 {
@@ -13,7 +14,6 @@ namespace CmpCompiler.Core.Models
                 lista.Add("inicio");
                 lista.Add("fim");
                 lista.Add("var");
-                lista.Add("\"");
                 lista.Add("leia");
                 lista.Add("escreva");
                 lista.Add("se");
@@ -104,25 +104,9 @@ namespace CmpCompiler.Core.Models
             return Constantes.Caracteres.Contains(valor) || (valor.StartsWith("\"") && valor.EndsWith("\""));
         }
 
-        public static List<string> CaracteresIgnorado
-        {
-            get
-            {
-                var lista = new List<string>();
-                lista.Add(",");
-                lista.Add(":");
-                lista.Add("º");
-                lista.Add("ª");
-                lista.Add("§");
-                lista.Add(".");
-                lista.Add("*");
-                return lista;
-            }
-        }
-
         public static bool PossuiCaracteresInvalido(this string valor)
         {
-            return valor.Any(x => Constantes.CaracteresIgnorado.Contains(x.ToString()));
+            return valor.All(c => Regex.IsMatch(c.ToString(), "[a-zA-Z0-9]", RegexOptions.IgnoreCase));
         }
     }
 }
